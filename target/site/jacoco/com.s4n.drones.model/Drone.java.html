@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Drone.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s4n-drones</a> &gt; <a href="index.source.html" class="el_package">com.s4n.drones.model</a> &gt; <span class="el_source">Drone.java</span></div><h1>Drone.java</h1><pre class="source lang-java linenums">package com.s4n.drones.model;
+
+import java.text.MessageFormat;
+
+import com.s4n.drones.conf.Configurator;
+
+public class Drone {
+<span class="fc" id="L8">  private static final Configurator configurator = Configurator.getInstance();</span>
+<span class="fc" id="L9">	private static final int MAX_DRONES_QUANTITY = Integer.parseInt(configurator.getProperty(&quot;MAX_DRONES_QUANTITY&quot;));</span>
+	
+	private String name;
+	private Position position;
+	private String inputFileName;
+	private String outputFileName;
+	
+<span class="fc" id="L16">	public Drone(int id) {</span>
+<span class="fc" id="L17">		this.name = getName(id);</span>
+<span class="fc" id="L18">		this.inputFileName = MessageFormat.format(configurator.getProperty(&quot;INPUT_FILE_NAME_FORMAT&quot;), name);</span>
+<span class="fc" id="L19">		this.outputFileName = MessageFormat.format(configurator.getProperty(&quot;OUTPUT_FILE_NAME_FORMAT&quot;), name);</span>
+<span class="fc" id="L20">		position = new Position(0, 0, Orientation.NORTH);</span>
+<span class="fc" id="L21">	}</span>
+	
+	private String getName(int droneId) {
+<span class="fc" id="L24">		int droneIdLength = (int) (Math.log10(droneId) + 1);</span>
+<span class="fc" id="L25">		int maxQtyDronesLength = (int) (Math.log10(MAX_DRONES_QUANTITY) + 1);</span>
+<span class="fc" id="L26">		int requiredZerosQty = maxQtyDronesLength - droneIdLength + 1;</span>
+		
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">		if(requiredZerosQty &lt; 1) {</span>
+<span class="nc" id="L29">			return Integer.toString(droneId);</span>
+		} else {
+<span class="fc" id="L31">			String zerosFormat = MessageFormat.format(&quot;%0{0}d&quot;, requiredZerosQty);</span>
+			
+<span class="fc" id="L33">			return String.format(zerosFormat, droneId);</span>
+		}		
+	}
+
+	public String getInputFileName() {
+<span class="fc" id="L38">		return inputFileName;</span>
+	}
+
+	public String getOutputFileName() {
+<span class="fc" id="L42">		return outputFileName;</span>
+	}
+
+	public Position getPosition() {
+<span class="fc" id="L46">		return position;</span>
+	}
+	
+	public void setPosition(Position position) {
+<span class="fc" id="L50">		this.position = position;</span>
+<span class="fc" id="L51">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

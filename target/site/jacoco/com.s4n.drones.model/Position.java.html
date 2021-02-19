@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Position.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">s4n-drones</a> &gt; <a href="index.source.html" class="el_package">com.s4n.drones.model</a> &gt; <span class="el_source">Position.java</span></div><h1>Position.java</h1><pre class="source lang-java linenums">package com.s4n.drones.model;
+
+import java.text.MessageFormat;
+
+import com.s4n.drones.conf.Configurator;
+
+public class Position {
+<span class="fc" id="L8">  private static final Configurator configurator = Configurator.getInstance();</span>
+
+<span class="fc" id="L10">	private static final int MAX_BLOCKS_RANGE = Integer.parseInt(configurator.getProperty(&quot;MAX_BLOCKS_RANGE&quot;));</span>
+	private static final String AREA_ERROR_MSG = &quot;The delivery point is outside of the coverage area.&quot;;
+	
+	private int x;
+	private int y;
+	private Orientation orientation;
+	
+<span class="fc" id="L17">	public Position() {</span>
+<span class="fc" id="L18">		x = 0;</span>
+<span class="fc" id="L19">		y = 0;</span>
+<span class="fc" id="L20">		orientation = Orientation.NORTH;</span>
+<span class="fc" id="L21">	}</span>
+	
+<span class="fc" id="L23">	public Position(int x, int y, Orientation orientation) {</span>
+<span class="fc" id="L24">		this.x = x;</span>
+<span class="fc" id="L25">		this.y = y;</span>
+<span class="fc" id="L26">		this.orientation = orientation;</span>
+<span class="fc" id="L27">	}</span>
+	
+	private int getAdvance(int coor, int movement) throws Exception {
+<span class="fc" id="L30">		coor += movement;</span>
+		
+<span class="fc bfc" id="L32" title="All 2 branches covered.">		if((coor) &gt; MAX_BLOCKS_RANGE) {</span>
+<span class="fc" id="L33">			throw new Exception(AREA_ERROR_MSG);</span>
+		}
+		
+<span class="fc" id="L36">		return coor;</span>
+	}
+	
+	public Position doAdvance() throws Exception {
+<span class="pc bpc" id="L40" title="1 of 5 branches missed.">		switch(orientation) {</span>
+		case NORTH:
+<span class="fc" id="L42">			y = getAdvance(y, 1);</span>
+<span class="fc" id="L43">			break;</span>
+		case WEST:
+<span class="fc" id="L45">			x = getAdvance(x, -1);</span>
+<span class="fc" id="L46">			break;</span>
+		case SOUTH:
+<span class="fc" id="L48">			y = getAdvance(y, -1);</span>
+<span class="fc" id="L49">			break;</span>
+		case EAST:
+<span class="fc" id="L51">			x = getAdvance(x, 1);</span>
+			break;
+		}
+		
+<span class="fc" id="L55">		return this;</span>
+	}
+	
+	public Position turnLeft() {
+<span class="fc" id="L59">		orientation = orientation.getLeftOrientation();</span>
+<span class="fc" id="L60">		return this;</span>
+	}
+	
+	public Position turnRight() {
+<span class="fc" id="L64">		orientation = orientation.getRightOrientation();</span>
+<span class="fc" id="L65">		return this;</span>
+	}
+	
+	public String toString() {
+<span class="fc" id="L69">		String msg = &quot;({0},{1}) dirección {2}&quot;;</span>
+<span class="fc" id="L70">		return MessageFormat.format(msg, this.x, this.y, this.orientation.getName());</span>
+	}
+
+	public int getX() {
+<span class="fc" id="L74">		return x;</span>
+	}
+
+	public int getY() {
+<span class="fc" id="L78">		return y;</span>
+	}
+	
+	public Orientation getOrientation() {
+<span class="fc" id="L82">		return orientation;</span>
+	}
+	
+	public void moveToPosition(int newX, int newY, Orientation newOrientation) {
+<span class="fc" id="L86">		this.x = newX;</span>
+<span class="fc" id="L87">		this.y = newY;</span>
+<span class="fc" id="L88">		this.orientation = newOrientation;</span>
+<span class="fc" id="L89">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,9 @@
+com\s4n\drones\model\Drone.class
+com\s4n\drones\model\Orientation.class
+com\s4n\drones\conf\Configurator.class
+com\s4n\drones\ui\ClientFacade.class
+com\s4n\drones\model\Orientation$1.class
+com\s4n\drones\model\Position$1.class
+com\s4n\drones\Main.class
+com\s4n\drones\processor\Processor.class
+com\s4n\drones\model\Position.class
